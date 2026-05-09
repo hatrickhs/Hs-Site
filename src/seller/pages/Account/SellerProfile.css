@@ -1,0 +1,18 @@
+.profile-card {
+  background: linear-gradient(135deg, #111827, #1e293b);
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 400px;
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+  margin-top: 20px;
+}
+
+.profile-card p {
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+.profile-card strong {
+  color: #4f8cff;
+}

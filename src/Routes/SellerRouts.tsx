@@ -1,0 +1,29 @@
+import { Routes, Route } from 'react-router-dom'
+import React from 'react'
+import Dashboard from '../seller/pages/SellerDeskboard/Dashboard'
+import Products from '../seller/pages/Products/Products'
+import Profile from '../seller/pages/Account/Profile'
+import AddProduct from '../seller/pages/Products/AddProduct'
+import Orders from '../seller/pages/Orders/Orders'
+import Payment from '../seller/pages/Payment/Payment'
+import Transaction from '../seller/pages/Payment/Transaction'
+
+
+const SellerRouts = () => {
+  return (
+    <div>
+        <Routes>
+            <Route path='/' element={<Dashboard/>}/>
+            <Route path='/products' element={<Products/>}/>
+            <Route path='/add-product' element={<AddProduct/>}/>
+            <Route path='/orders' element={<Orders/>}/>
+            <Route path='/account' element={<Profile/>}/>
+            <Route path='/payment' element={<Payment/>}/>
+            <Route path='/transaction' element={<Transaction/>}/>
+
+        </Routes>
+    </div>
+  )
+}
+
+export default SellerRouts

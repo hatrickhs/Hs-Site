@@ -1,0 +1,119 @@
+
+.dashboard {
+  background: #0f172a;  
+  min-height: 100vh;   
+  padding: 18px;
+  color: #ffffff;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+}
+
+.stats {
+  display: flex;           
+  gap: 10px;              
+  overflow-x: auto;        
+  padding-bottom: 8px;     
+  margin-bottom: 16px;
+  -webkit-overflow-scrolling: touch; 
+}
+
+.stats::-webkit-scrollbar {
+  height: 6px;             
+}
+
+.stats::-webkit-scrollbar-thumb {
+  background-color: #4f8cff; 
+  border-radius: 3px;
+}
+
+.stats::-webkit-scrollbar-track {
+  background: #0f172a;    
+}
+
+.card {
+  flex: 0 0 150px;        
+  background: linear-gradient(135deg, #111827, #1e293b);
+  padding: 10px 14px;
+  border-radius: 8px;
+  min-height: 40px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px); 
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
+}
+
+.card p {
+  font-size: 12px;
+  opacity: 0.75;
+  margin: 0;
+}
+
+.card h2 {
+  margin-top: 4px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.chart-box {
+  background: #111827;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+}
+
+.chart-box h3 {
+  margin-bottom: 12px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.recharts-default-tooltip {
+  background-color: #1e293b !important;
+  border: none !important;
+  border-radius: 8px;
+}
+
+.recharts-tooltip-label {
+  color: #cbd5f5 !important;
+}
+
+.recharts-tooltip-item {
+  color: #ffffff !important;
+}
+
+.dashboard::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dashboard::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+.dashboard::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 10px;
+}
+
+.dashboard::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+@media (max-width: 1024px) {
+  .card {
+    flex: 0 0 130px; 
+  }
+}
+
+@media (max-width: 600px) {
+  .card {
+    flex: 0 0 120px;
+    min-height: 65px;
+  }
+}
