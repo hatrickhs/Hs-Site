@@ -41,7 +41,7 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const fetchDashboard = async () => {
       try {
-        const { data } = await api.get<DashboardStats>("/api/seller/dashboard");
+        const { data } = await api.get<DashboardStats>("/sellers/report");
 
         // Set stats cards
         setStats([

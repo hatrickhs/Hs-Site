@@ -16,7 +16,7 @@ const AddressCard: React.FC<AddressCardProps> = ({
   selected,
   onSelect,
   onRemove,
-  showDelete = true, // 👈 default true
+  showDelete = true, 
 }) => {
   return (
     <div className="p-5 border rounded-md flex justify-between items-start">
@@ -42,7 +42,7 @@ const AddressCard: React.FC<AddressCardProps> = ({
         </div>
       </div>
 
-      {/* ❌ Delete icon – conditionally render */}
+      {/* Delete icon – conditionally render */}
       {showDelete && onRemove && (
         <IconButton onClick={() => onRemove(address.id)}>
           <CloseIcon />

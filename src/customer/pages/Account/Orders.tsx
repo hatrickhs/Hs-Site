@@ -39,7 +39,6 @@ const Orders = () => {
 
       <div className="space-y-4">
         {orders
-          // 🔥 SAFETY: items இல்லாத order render ஆகாது
           .filter(
             (order) => order.orderItems && order.orderItems.length > 0
           )
@@ -48,20 +47,20 @@ const Orders = () => {
               key={order.id}
               className="border rounded-lg p-3 bg-gray-50"
             >
-              {/* 🔥 Order Header */}
+              {/* Order Header */}
               <div className="mb-2">
                 <p className="text-gray-500 text-sm">
                   Order ID: {order.id}
                 </p>
                 <p className="text-gray-500 text-sm">
-                  Date:{" "}
+                  Date:{ order.orderDate}
                   {order.orderDate
                     ? new Date(order.orderDate).toLocaleString()
                     : "—"}
                 </p>
               </div>
 
-              {/* 🔥 Order Items */}
+              {/*  Order Items */}
               {order.orderItems.map((item: any) => (
                 <OrderItemCard
                   key={item.id}

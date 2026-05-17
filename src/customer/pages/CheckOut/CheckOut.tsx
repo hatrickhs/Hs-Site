@@ -1,12 +1,20 @@
-import { Box, Button, FormControlLabel, Modal, Radio, RadioGroup } from "@mui/material";
-import React, { useState, useEffect } from "react";
+
+import {
+  Box,
+  Button,
+  FormControlLabel,
+  Modal,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AddressCard from "./AddressCard";
 import AddressForm from "./AddressForm";
 import PricingCard from "../Cart/PricingCard";
-import { useAppSelector } from "../../../State/Store";
+import { useAppSelector, useAppDispatch } from "../../../State/Store";
 import { useNavigate } from "react-router-dom";
-import Address from "../Account/Address";
+import { fetchUserCart } from "../../../State/customer/cartSlice";
 
 const style = {
   position: "absolute" as "absolute",
@@ -21,73 +29,81 @@ const style = {
 
 const paymentOptions = [
   { value: "CASH_ON_DELIVERY", label: "Cash on Delivery" },
-  {
-    value: "RAZORPAY",
-    label: "Razorpay",
-    image:
-      "https://razorpay.com/newsroom-content/uploads/2020/12/output-onlinepngtools-1-1.png",
-  },
+  { value: "RAZORPAY", label: "Razorpay" },
 ];
 
 const CheckOut = () => {
-  const token = useAppSelector((state) => state.auth.jwt);
-  const { cart } = useAppSelector((state) => state.cart);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const { jwt, role } = useAppSelector((state) => state.auth);
+  const { cart, loading } = useAppSelector((state) => state.cart);
+
+  const cartItems = cart?.cartItems || [];
 
   const [open, setOpen] = useState(false);
   const [addresses, setAddresses] = useState<any[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<any>(null);
   const [paymentMethod, setPaymentMethod] = useState("CASH_ON_DELIVERY");
 
+  //  CART FETCH (IMPORTANT FIX) 
   useEffect(() => {
-    const fetchAddresses = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/addresses", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setAddresses(response.data);
-        if (response.data.length > 0) setSelectedAddress(response.data[0]);
-      } catch (err) {
-        console.error("Failed to fetch addresses:", err);
-      }
-    };
-    fetchAddresses();
-  }, [token]);
+    if (jwt && role) {
+      dispatch(fetchUserCart({ jwt, role }));
+    }
+  }, [jwt, role, dispatch]);
 
-  const handleSaveAddress = (newAddress: any) => {
-    setAddresses((prev) => [...prev, newAddress]);
-    setSelectedAddress(newAddress);
-    setOpen(false);
-  };
-
-      <div>
-        <h2 className="font-semibold mb-3">Select Address</h2>
-
-        <Address
-          onSelect={(addr: any) => setSelectedAddress(addr)}
-        />
-
-        {selectedAddress && (
-          <p className="text-sm text-green-600 mt-2">
-            Selected Address ID: {selectedAddress.id}
-          </p>
-        )}
-      </div>
-
-  const handleRemoveAddress = async (id: number) => {
+  // ADDRESS FETCH 
+  const fetchAddresses = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/addresses/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setAddresses((prev) => prev.filter((addr) => addr.id !== id));
-      if (selectedAddress?.id === id) setSelectedAddress(null);
+      const res = await axios.get(
+        "http://localhost:5000/api/addresses/all",
+        {
+          headers: { Authorization: `Bearer ${jwt}` },
+        }
+      );
+
+      setAddresses(res.data);
+
+      if (res.data.length > 0 && !selectedAddress) {
+        setSelectedAddress(res.data[0]);
+      }
     } catch (err) {
-      console.error("Address remove failed:", err);
-      alert("Address remove failed.");
+      console.error("Address fetch failed", err);
     }
   };
 
+  useEffect(() => {
+    if (jwt) fetchAddresses();
+  }, [jwt]);
+
+  // SAVE ADDRESS 
+  const handleSaveAddress = () => {
+    fetchAddresses();
+    setOpen(false);
+  };
+
+  //  DELETE ADDRESS 
+  const handleRemoveAddress = async (id: number) => {
+    try {
+      await axios.delete(
+        `http://localhost:5000/api/addresses/delete/${id}`,
+        {
+          headers: { Authorization: `Bearer ${jwt}` },
+        }
+      );
+
+      fetchAddresses();
+
+      if (selectedAddress?.id === id) {
+        setSelectedAddress(null);
+      }
+    } catch (err) {
+      console.error("Delete failed", err);
+    }
+  };
+
+  //  CHECKOUT 
   const handleCheckout = async () => {
     if (!selectedAddress) {
       alert("Please select address");
@@ -95,46 +111,57 @@ const CheckOut = () => {
     }
 
     try {
-      const payload = { addressId: selectedAddress.id, cartItems: cart };
+      const items = cartItems.map((item: any) => ({
+        productId: item.product?.id,
+        quantity: item.quantity,
+      }));
 
-      const response = await axios.post(
+      const payload = {
+        addressId: selectedAddress.id,
+        cartItems: items,
+      };
+
+      const res = await axios.post(
         `http://localhost:5000/api/orders?paymentMethod=${paymentMethod}`,
         payload,
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          headers: { Authorization: `Bearer ${jwt}` },
+        }
       );
 
+      const orderId = res.data.orderId;
+
       if (paymentMethod === "CASH_ON_DELIVERY") {
-          const orderId = response.data.orderId;
-        alert("Order placed successfully (Cash on Delivery)");
-
-         navigate(`/payment-success/${orderId}`);
-         console.log("Order Response:", response.data);
-
+        alert("Order placed successfully");
+        navigate(`/payment-success/${orderId}`);
       }
 
       if (paymentMethod === "RAZORPAY") {
-        const orderId = response.data.orderId;
-        const paymentLinkUrl = response.data.paymentLinkUrl;
-        if (paymentLinkUrl) window.location.href = paymentLinkUrl;
-        else alert("Payment link not found!");
-        //  navigate(`/payment-success/${orderId}`);
-         console.log("Order Response:", response.data);
+        window.location.href = res.data.paymentLinkUrl;
       }
-    } catch (err: any) {
-      console.error("Checkout failed:", err.response || err);
-      alert("failed to checkout");
+    } catch (err) {
+      console.error("Checkout failed", err);
+      alert("Checkout failed");
     }
   };
+
+  // LOADING FIX 
+  if (!cart) {
+    return <div className="p-10">Loading cart...</div>;
+  }
 
   return (
     <>
       <div className="pt-10 px-5 lg:px-40 min-h-screen">
         <div className="flex flex-col lg:flex-row gap-10">
-         
+
+          {/* LEFT - ADDRESS */}
           <div className="flex-1 space-y-5">
             <div className="flex justify-between items-center">
               <h1 className="font-semibold">Select Address</h1>
-              <Button onClick={() => setOpen(true)}>Add new Address</Button>
+              <Button onClick={() => setOpen(true)}>
+                Add new Address
+              </Button>
             </div>
 
             <div className="space-y-3">
@@ -150,9 +177,13 @@ const CheckOut = () => {
             </div>
           </div>
 
+          {/* RIGHT - PAYMENT */}
           <div className="w-full lg:w-[35%]">
             <div className="border rounded-md shadow-md p-5 bg-white">
-              <h1 className="text-center font-medium pb-3">Choose Payment Method</h1>
+
+              <h1 className="text-center font-medium pb-3">
+                Payment Method
+              </h1>
 
               <RadioGroup
                 value={paymentMethod}
@@ -163,27 +194,31 @@ const CheckOut = () => {
                     key={opt.value}
                     value={opt.value}
                     control={<Radio />}
-                    label={
-                      opt.image ? (
-                        <img src={opt.image} alt={opt.label} className="h-8 object-contain"/>
-                      ) : (
-                        opt.label
-                      )
-                    }
+                    label={opt.label}
                   />
                 ))}
               </RadioGroup>
 
-              <PricingCard cart={cart || []} />
+              {/* IMPORTANT FIX */}
+              <PricingCard cart={cart} />
 
-              <Button fullWidth variant="contained" sx={{ mt: 2 }} onClick={handleCheckout}>
+              <Button
+                fullWidth
+                variant="contained"
+                sx={{ mt: 2 }}
+                disabled={loading || cartItems.length === 0}
+                onClick={handleCheckout}
+              >
                 Checkout
               </Button>
+
             </div>
           </div>
+
         </div>
       </div>
 
+      {/* MODAL */}
       <Modal open={open} onClose={() => setOpen(false)}>
         <Box sx={style}>
           <AddressForm onSave={handleSaveAddress} />
@@ -194,5 +229,3 @@ const CheckOut = () => {
 };
 
 export default CheckOut;
-
-

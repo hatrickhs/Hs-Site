@@ -19,13 +19,20 @@ const DealCategoryTable = () => {
   const [editCategory, setEditCategory] = useState<HomeCategory | null>(null);
 
   useEffect(() => {
-    if (categoriesFromStore?.length) {
-      const dealCategories = categoriesFromStore.filter(
-        (item) => item.section === "DEALS"
-      );
-      setCategories(dealCategories);
-    }
-  }, [categoriesFromStore]);
+  console.log(categoriesFromStore);
+}, [categoriesFromStore]);
+
+  useEffect(() => {
+
+  const dealCategories = categoriesFromStore.filter(
+    (item) => item.section?.trim() === "DEALS"
+  );
+
+  console.log("DEAL CATEGORIES =>", dealCategories);
+
+  setCategories(dealCategories);
+
+}, [categoriesFromStore]);
 
   const handleEditCategory = (cat: HomeCategory) => setEditCategory(cat);
 
@@ -39,6 +46,17 @@ const DealCategoryTable = () => {
       alert("Delete failed");
     }
   };
+
+  useEffect(() => {
+  console.log("ALL CATEGORIES =>", categoriesFromStore);
+
+  console.log(
+    "SECTION LIST =>",
+    categoriesFromStore.map((c) => c.section)
+  );
+
+}, [categoriesFromStore]);
+
 
   return (
     <>
@@ -65,21 +83,3 @@ const DealCategoryTable = () => {
 };
 
 export default DealCategoryTable;
-
-// import React from 'react'
-// import HomeCategoryTable from './HomeCategoryTable'
-// import { initial, values } from 'lodash'
-// import { discount } from '../../../data/Filter/discount'
-// import { Category } from '@mui/icons-material'
-
-// const DealCategoryTable = () => {
- 
-
-//   return (
-//     <div>
-//       <HomeCategoryTable/>
-//     </div>
-//   )
-// }
-
-// export default DealCategoryTable

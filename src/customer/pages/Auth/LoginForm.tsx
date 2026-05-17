@@ -40,43 +40,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ from }) => {
         dispatch(sendLoginSignupOtp({ email: formik.values.email }))
     }
 
-    // React.useEffect(() => {
-    //     if (auth.jwt && auth.role) {
-    //         localStorage.setItem("token", auth.jwt);
-
-    //         if (pendingProduct) {
-    //             dispatch(
-    //                 addItemToCart({
-    //                     jwt: auth.jwt,
-    //                     request: pendingProduct,
-    //                 })
-    //             );
-    //         }
-
-    //         const timer = setTimeout(() => {
-    //             if (auth.role === "ROLE_ADMIN") {
-    //                 navigate("/admin");
-    //             } else if (auth.role === "ROLE_SELLER") {
-    //                 navigate("/seller");
-    //             } else if (auth.role === "ROLE_CUSTOMER") {
-    //                 navigate(from || "/"); // <-- use the from prop
-    //             } else {
-    //                 navigate("/");
-    //             }
-    //         }, 1500); // 👈 snackbar visible time
-
-    //         return () => clearTimeout(timer);
-    //     }
-    // }, [auth.jwt, auth.role]);
-
     React.useEffect(() => {
     if (auth.jwt && auth.role) {
 
         localStorage.setItem("jwt", auth.jwt);
 
-        // =========================
-        // ❤️ WISHLIST AUTO ADD
-        // =========================
         const pendingWishlist = localStorage.getItem("pendingWishlist");
 
         if (pendingWishlist) {
@@ -89,9 +57,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ from }) => {
             localStorage.removeItem("pendingWishlist");
         }
 
-        // =========================
-        // 🛒 OPTIONAL CART (separate)
-        // =========================
         if (pendingProduct) {
             dispatch(
                 addItemToCart({
@@ -101,9 +66,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ from }) => {
             );
         }
 
-        // =========================
-        // 🚀 NAVIGATION
-        // =========================
         const timer = setTimeout(() => {
 
             if (auth.role === "ROLE_ADMIN") {
@@ -129,13 +91,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ from }) => {
     }, [auth.message]);
 
     React.useEffect(() => {
-        console.log("AUTH MESSAGE 👉", auth.message);
+        console.log("AUTH MESSAGE ", auth.message);
     }, [auth.message]);
 
 
     React.useEffect(() => {
-        console.log("AUTH STATE 👉", auth);
-        console.log("AUTH USER 👉", auth.user);
+        console.log("AUTH STATE ", auth);
+        console.log("AUTH USER ", auth.user);
     }, [auth]);
 
 

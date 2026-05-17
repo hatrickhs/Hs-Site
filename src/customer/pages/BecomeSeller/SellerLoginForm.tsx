@@ -38,14 +38,14 @@ const SellerLoginForm = () => {
     setOtpLoading(false);
   };
 
-  /* 🔔 Snackbar open when message changes */
+  /* Snackbar open when message changes */
   React.useEffect(() => {
     if (auth.message) {
       setOpen(true);
     }
   }, [auth.message]);
 
-  /* 🚀 Redirect seller after success */
+  /* Redirect seller after success */
   React.useEffect(() => {
     if (auth.jwt && auth.role === "ROLE_SELLER") {
       const timer = setTimeout(() => {

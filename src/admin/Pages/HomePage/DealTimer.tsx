@@ -36,3 +36,4 @@ const DealTimer = ({ expiryTime }: { expiryTime: string }) => {
 };
 
 export default DealTimer;
+

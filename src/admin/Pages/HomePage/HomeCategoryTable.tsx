@@ -30,7 +30,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-/* 👇 props type */
+/* props type */
 interface Props {
   data: HomeCategory[];
   onEdit: (category: HomeCategory) => void;
@@ -50,7 +50,7 @@ export default function HomeCategoryTable({
             <StyledTableCell>No</StyledTableCell>
             <StyledTableCell>Id</StyledTableCell>
             <StyledTableCell align="right">Image</StyledTableCell>
-             <StyledTableCell align="right">Name</StyledTableCell>
+            <StyledTableCell align="right">Name</StyledTableCell>
             <StyledTableCell align="right">Category</StyledTableCell>
             <StyledTableCell align="right">Discount</StyledTableCell>
             <StyledTableCell align="right">Edit</StyledTableCell>
@@ -80,18 +80,18 @@ export default function HomeCategoryTable({
                 {category.categoryId}
               </StyledTableCell>
 
-               <StyledTableCell align="right">
-                {category.discount}
+              <StyledTableCell align="right">
+                {category.discount ?? 0}%
               </StyledTableCell>
 
-              {/* ✏️ Edit */}
+              {/*  Edit */}
               <StyledTableCell align="right">
                 <Button onClick={() => onEdit(category)}>
                   <Edit />
                 </Button>
               </StyledTableCell>
 
-              {/* 🗑 Delete */}
+              {/*  Delete */}
               <StyledTableCell align="right">
                 <Button
                   color="error"

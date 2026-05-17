@@ -67,7 +67,7 @@ export const fetchDealsByCategory = createAsyncThunk<
       const { categoryId, ...filters } = params;
 
       const { data } = await api.get(
-        `/admin/deals/category/${categoryId}`,
+        `/admin/deals/category/${categoryId}/filter`,
         {
           params: {
             ...(filters.color && { color: filters.color }),

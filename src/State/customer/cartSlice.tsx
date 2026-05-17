@@ -103,15 +103,34 @@ export const deleteCartItem = createAsyncThunk<number, { jwt: string; cartItemId
   }
 );
 
-// Apply Coupon
 export const applyCoupon = createAsyncThunk<Cart, { jwt: string; couponCode: string }>(
   "cart/applyCoupon",
   async ({ jwt, couponCode }, { rejectWithValue }) => {
     try {
-      const response = await api.post(`${API_URL}/apply-coupon`, { couponCode }, { headers: { Authorization: `Bearer ${jwt}` } });
+
+      const response = await api.post(
+        `${API_URL}/apply-coupon`,
+        { couponCode },
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`
+          }
+        }
+      );
+
+      console.log("COUPON APPLY SUCCESS");
+      console.log(response.data);
+
       return response.data;
+
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Failed to apply coupon");
+
+      console.log("COUPON APPLY ERROR");
+      console.log(error.response?.data);
+
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to apply coupon"
+      );
     }
   }
 );
@@ -120,7 +139,7 @@ export const removeCoupon = createAsyncThunk<Cart, { jwt: string; couponCode: st
   "cart/removeCoupon",
   async ({ jwt, couponCode }, { rejectWithValue }) => {
     try {
-      const response = await api.post(
+      const response = await api.put(
         `${API_URL}/remove-coupon`,
         { couponCode },
         { headers: { Authorization: `Bearer ${jwt}` } }

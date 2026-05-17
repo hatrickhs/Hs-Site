@@ -25,7 +25,6 @@ const rootReducer=combineReducers({
     wishlist:wishlistSlice,
     customer:customerSlice,
 
-    //seller slice
     sellerOrder:sellerOrderSlice,
     transactions:transactionSlice,
     
@@ -34,12 +33,14 @@ const rootReducer=combineReducers({
     deal:dealSlice,
 
     adminCoupon: adminCouponReducer,
+    
 
 });
 
 const store = configureStore({
     reducer:rootReducer,
     middleware:(getDefaultMiddleware)=>getDefaultMiddleware()
+    
 
 })
 

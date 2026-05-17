@@ -126,7 +126,7 @@ function App() {
           <Route path="/login" element={<Auth />} />
           <Route path="/reviews/:productId" element={<Review />} />
           <Route path="/product-details/:categoryId/:name/:productId" element={<ProductDetails />} />
-          <Route path="/deal-details/:categoryId/:name/:productId" element={<DealDetails />} />
+          <Route path="/Deal-details/:productId" element={<DealDetails />} />
           <Route path="/product/:productId" element={<ProductDetails />} />
           <Route path="/account/order/:orderId/:orderItemId" element={<OrderDetails />} />
           <Route path="/product/:id" element={<ProductDetails />} />

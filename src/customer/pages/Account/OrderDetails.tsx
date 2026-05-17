@@ -2,7 +2,12 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../State/Store";
-import { fetchOrderById, fetchOrderItemById, cancelOrder } from "../../../State/customer/orderSlice";
+import {
+  fetchOrderById,
+  fetchOrderItemById,
+  cancelOrder
+} from "../../../State/customer/orderSlice";
+
 import { Box, Button, Divider } from "@mui/material";
 import OrderSteper from "./OrderSteper";
 import { Payment } from "@mui/icons-material";
@@ -12,48 +17,63 @@ const OrderDetails = () => {
   const dispatch = useAppDispatch();
   const { orderId, orderItemId } = useParams();
 
-  const { orderItem, currentOrder, orderCanceled } = useAppSelector(state => state.order);
+  const { orderItem, currentOrder, orderCanceled } = useAppSelector(
+    (state) => state.order
+  );
 
-  // 🔹 Fetch data
+  //  Fetch order + item
   useEffect(() => {
+    const jwt = localStorage.getItem("jwt") || "";
+
     if (orderId) {
-      dispatch(fetchOrderById({
-        orderId: Number(orderId),
-        jwt: localStorage.getItem("jwt") || ""
-      }));
+      dispatch(
+        fetchOrderById({
+          orderId: Number(orderId),
+          jwt
+        })
+      );
     }
 
     if (orderItemId) {
-      dispatch(fetchOrderItemById({
-        orderItemId: Number(orderItemId),
-        jwt: localStorage.getItem("jwt") || ""
-      }));
+      dispatch(
+        fetchOrderItemById({
+          orderItemId: Number(orderItemId),
+          jwt
+        })
+      );
     }
   }, [orderId, orderItemId, dispatch]);
 
-  // 🔹 Cancel order
+  // Cancel order
   const handleCancelOrder = () => {
     if (currentOrder?.id) {
       dispatch(cancelOrder({ orderId: currentOrder.id }));
     }
   };
 
-  // 🔹 Calculations
-  const totalItemPrice =
-    (orderItem?.quantity || 0) * (orderItem?.sellingPrice || 0);
+  // SAFE PRICE LOGIC (FIXED HERE)
+  const mrp =
+    orderItem?.product?.mrpPrice ??
+    orderItem?.deal?.mrpPrice ??
+    0;
+
+  const sellingPrice =
+    orderItem?.product?.sellingPrice ??
+    orderItem?.deal?.sellingPrice ??
+    0;
+
+  const quantity = orderItem?.quantity ?? 1;
+
+  const totalItemPrice = sellingPrice * quantity;
 
   const youSaved =
-    orderItem?.mrpPrice && orderItem?.sellingPrice
-      ? (
-          (orderItem.mrpPrice - orderItem.sellingPrice) *
-          (orderItem.quantity || 1)
-        ).toFixed(2)
+    mrp && sellingPrice
+      ? ((mrp - sellingPrice) * quantity).toFixed(2)
       : "0.00";
 
   return (
     <Box>
-
-      {/* 🔹 Product Info */}
+      {/*  Product Info */}
       <section className="flex flex-col gap-5 justify-center items-center">
         <img
           className="w-[100px]"
@@ -62,17 +82,17 @@ const OrderDetails = () => {
             orderItem?.deal?.images?.[0] ||
             "https://via.placeholder.com/100"
           }
-          alt={orderItem?.product?.title || "Product"}
+          alt={orderItem?.product?.title || orderItem?.deal?.name || "Product"}
         />
 
         <div className="text-sm space-y-1 text-center">
           <h1 className="font-bold">
             {orderItem?.product?.seller?.businessDetails?.businessName || ""}
           </h1>
-          <p>{orderItem?.product?.title || ""}</p>
+          <p>{orderItem?.product?.title || orderItem?.deal?.name || ""}</p>
         </div>
 
-        {/* 🔹 Write Review */}
+        {/*  Write Review */}
         <Button
           disabled={!orderItem?.product?.id && !orderItem?.deal?.id}
           onClick={() => {
@@ -87,14 +107,14 @@ const OrderDetails = () => {
         </Button>
       </section>
 
-      {/* 🔹 Order Stepper */}
+      {/*  Order Stepper */}
       <section className="border p-5">
         <OrderSteper
           orderStatus={currentOrder?.orderStatus || "PENDING"}
         />
       </section>
 
-      {/* 🔹 Address */}
+      {/*  Address */}
       <div className="border p-5">
         <h1 className="font-bold pb-3">Delivery Address</h1>
 
@@ -114,7 +134,7 @@ const OrderDetails = () => {
         </div>
       </div>
 
-      {/* 🔹 Price Section */}
+      {/*  Price Section */}
       <div className="border space-y-4">
         <div className="flex justify-between text-sm pt-5 px-5">
           <div className="space-y-1">
@@ -134,7 +154,7 @@ const OrderDetails = () => {
           <p className="font-medium">₹{totalItemPrice}</p>
         </div>
 
-        {/* 🔹 Payment */}
+        {/*  Payment */}
         <div className="px-5">
           <div className="bg-teal-50 px-5 py-2 text-xs font-medium flex items-center gap-3">
             <Payment />
@@ -144,17 +164,17 @@ const OrderDetails = () => {
 
         <Divider />
 
-        {/* 🔹 Seller */}
+        {/*  Seller */}
         <div className="px-5 pb-5">
-          <p className="text-xs">
+          {/* <p className="text-xs">
             <strong>Sold by: </strong>
             {orderItem?.product?.seller?.businessDetails?.businessName ||
-              orderItem?.product?.seller?.sellerName ||
-              "Unknown Seller"}
-          </p>
+              orderItem?.product?.seller?.sellerName || orderItem?.deal?.seller?.sellerName ||
+              "UnKown Seller"}
+          </p> */}
         </div>
 
-        {/* 🔹 Cancel Button */}
+        {/*  Cancel Button */}
         <div className="p-10">
           <Button
             onClick={handleCancelOrder}

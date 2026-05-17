@@ -38,7 +38,7 @@ const Wishlist = () => {
               item={{
                 ...item,
                 title: item.name,
-                images: [item.image],
+                images: item.images,
                 discountPercentage: item.discount,
               }}
               type="DEAL"

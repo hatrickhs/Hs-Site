@@ -18,8 +18,9 @@ const OrderItemCard: React.FC<Props> = ({ item, order, jwt }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  // ❌ remove item
+  // remove item
   const handleRemoveItem = (e: React.MouseEvent) => {
+    e.preventDefault();
     e.stopPropagation();
 
     dispatch(
@@ -31,7 +32,7 @@ const OrderItemCard: React.FC<Props> = ({ item, order, jwt }) => {
     );
   };
 
-  // 📅 date format safe
+  // safe date format
   const formattedDate = order.deliverDate
     ? new Date(order.deliverDate).toLocaleDateString("en-US", {
         weekday: "short",
@@ -40,7 +41,7 @@ const OrderItemCard: React.FC<Props> = ({ item, order, jwt }) => {
       })
     : "N/A";
 
-  // 🖼 image safe function
+  // image safe
   const getImage = () => {
     return (
       item.product?.images?.[0] ||
@@ -49,26 +50,44 @@ const OrderItemCard: React.FC<Props> = ({ item, order, jwt }) => {
     );
   };
 
-  // 🏷 title safe
+  // title safe
   const getTitle = () => {
     return item.product?.title || item.deal?.name || "Product";
   };
 
-  // 🏪 seller safe
+  // seller safe 
   const getSeller = () => {
     return (
       item.product?.seller?.businessDetails?.businessName ||
+      item.product?.seller?.sellerName ||
       item.deal?.seller?.businessDetails?.businessName ||
+      item.deal?.seller?.sellerName ||
       "Seller"
     );
   };
 
+  //status color helper
+  const getStatusClass = () => {
+    switch (order.orderStatus) {
+      case "DELIVERED":
+        return "text-green-600";
+      case "CANCELLED":
+        return "text-red-500";
+      case "SHIPPED":
+        return "text-blue-500";
+      default:
+        return "text-primary-color";
+    }
+  };
+
   return (
     <div
-      onClick={() => navigate(`/account/order/${order.id}/${item.id}`)}
+      onClick={() =>
+        navigate(`/account/order/${order.id}/${item.id}`)
+      }
       className="relative cursor-pointer bg-white p-5 border rounded-md space-y-4"
     >
-      {/* ❌ DELETE */}
+      {/* REMOVE ITEM */}
       <IconButton
         onClick={handleRemoveItem}
         size="small"
@@ -84,14 +103,15 @@ const OrderItemCard: React.FC<Props> = ({ item, order, jwt }) => {
         </Avatar>
 
         <div>
-          <h1 className="font-bold text-primary-color">
+          <h1 className={`font-bold ${getStatusClass()}`}>
             {order.orderStatus || "PENDING"}
           </h1>
+
           <p>Arriving By {formattedDate}</p>
         </div>
       </div>
 
-      {/* PRODUCT / DEAL INFO */}
+      {/* PRODUCT / DEAL */}
       <div className="p-5 bg-teal-50 flex gap-3">
         {/* IMAGE */}
         <img
@@ -102,8 +122,8 @@ const OrderItemCard: React.FC<Props> = ({ item, order, jwt }) => {
 
         {/* DETAILS */}
         <div className="space-y-2">
-          <h1 className="font-bold">{getSeller()}</h1>
-          <p>{getTitle()}</p>
+          <h1 className="font-bold">{getTitle()}</h1>
+          {/* <p>{getTitle()}</p> */}
 
           <p>
             <strong>Size:</strong> {item.size || "FREE"}
@@ -119,4 +139,3 @@ const OrderItemCard: React.FC<Props> = ({ item, order, jwt }) => {
 };
 
 export default OrderItemCard;
-

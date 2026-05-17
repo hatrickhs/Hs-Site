@@ -27,9 +27,6 @@ const Navbar = () => {
   const auth = useAppSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
 
-  // const auth = useAppSelector(state => state.auth);
-  // const cartCount = useAppSelector(state =>
-  //   state.cart.cart ? state.cart.cart.cartItems.length : 0
   const cartCount = useAppSelector(
     state => state.cart?.cart?.cartItems?.length || 0
   );
@@ -66,19 +63,8 @@ const Navbar = () => {
         <div className="flex gap-1 lg:gap-6 items-center">
           <IconButton onClick={() => navigate("/search")}><SearchIcon /></IconButton>
 
-          {/* {auth.user ? (
-            <Button onClick={() => navigate("/account/orders")} className="flex items-center gap-2">
-              <Avatar sx={{ width: 29, height: 29 }} src="https://cdn.pixabay.com/photo/2015/04/15/09/28/head-723540_640.jpg" />
-              <h1 className="font-semibold hidden lg:block">{auth.user?.fullName}</h1>
-            </Button>
-          ) : (
-            <Button onClick={() => navigate("/login")} variant="contained">Login</Button>
-          )} */}
-
           {seller.profile || auth.user ? (
             <Button
-              // onClick={() => navigate("/account/orders")}
-              // className="flex items-center gap-2"
 
               onClick={() => {
                 if (auth.user?.role === "ROLE_ADMIN") {
@@ -108,20 +94,6 @@ const Navbar = () => {
               Login
             </Button>
           )}
-
-          {/* Wishlist Icon */}
-          {/* <IconButton onClick={() => navigate("/wishlist")}>
-            <Badge badgeContent={wishlistCount} color="success">
-              <Favorite sx={{ color: wishlistCount > 0 ? "green" : "gray", fontSize: 29 }} />
-            </Badge>
-          </IconButton>
-
-          {/* Cart Icon */}
-          {/* <IconButton onClick={() => navigate("/cart")}>
-            <Badge badgeContent={cartCount} color="primary">
-              <AddShoppingCart sx={{ fontSize: 29, color: "gray" }} />
-            </Badge>
-          </IconButton>  */}
 
           {/* Only show for CUSTOMER */}
           {auth.user?.role === "ROLE_CUSTOMER" && (

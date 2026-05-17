@@ -15,71 +15,74 @@ import {
 
 const Cart = () => {
   const [couponCode, setCouponCode] = useState("");
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const { cart, loading, error } = useAppSelector((state) => state.cart);
-  // const jwt = localStorage.getItem("jwt");
-  // const { cart, loading } = useAppSelector((state) => state.cart);
   const { jwt, role } = useAppSelector((state) => state.auth);
 
-  // useEffect(() => {
-  //   if (jwt) dispatch(fetchUserCart(jwt));
-  // }, [dispatch, jwt]);
-
+  // Fetch cart
   useEffect(() => {
     if (jwt && role) {
-      dispatch(fetchUserCart({ jwt, role })); 
+      dispatch(fetchUserCart({ jwt, role }));
     }
   }, [dispatch, jwt, role]);
 
+  // Apply coupon
   const handleApplyCoupon = () => {
     if (!couponCode || !jwt) return alert("Please enter a coupon code");
+
     dispatch(applyCoupon({ jwt, couponCode }));
     setCouponCode("");
   };
 
-  // const handleRemoveCoupon = () => {
-  //   if (!jwt) return;
-  //   dispatch(removeCoupon({
-  //     jwt,
-  //     couponCode: ""
-  //   }));
+  // Remove coupon
   const handleRemoveCoupon = () => {
-    if (!jwt || !cart?.code) return;
-    dispatch(removeCoupon({
-      jwt,
-      couponCode: cart.code
-    }));
+    if (!jwt || !cart?.couponCode) return;
+
+    dispatch(
+      removeCoupon({
+        jwt,
+        couponCode: cart.couponCode,
+      })
+    );
   };
 
   return (
     <div className="pt-10 px-5 sm:px-10 md:px-60 min-h-screen">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-        {/* Cart Items */}
+
+        {/* CART ITEMS */}
         <div className="lg:col-span-2 space-y-3">
           {cart?.cartItems?.map((item) => (
             <CartItemCart key={item.id} item={item} />
           ))}
         </div>
 
-        {/* Right Section */}
+        {/* RIGHT SIDE */}
         <div className="space-y-3">
-          {/* Coupon */}
+
+          {/* COUPON BOX */}
           <div className="border rounded-md px-5 py-3 space-y-4">
             <div className="flex items-center gap-2">
               <LocalOffer sx={{ color: teal[600], fontSize: 18 }} />
               <span>Apply Coupon</span>
             </div>
 
-            {cart?.code ? (
-              <div className="flex items-center gap-2 border p-2 rounded-md">
-                <span>{cart.code} Applied</span>
+            {/* SHOW IF COUPON APPLIED */}
+            {cart?.couponCode ? (
+              <div className="flex items-center justify-between border p-2 rounded-md">
+                <span className="text-green-600 font-semibold">
+                  {cart.couponCode} Applied
+                </span>
+
                 <IconButton size="small" onClick={handleRemoveCoupon}>
                   <Close className="text-red-600" />
                 </IconButton>
               </div>
             ) : (
+              // INPUT BOX
               <div className="flex gap-2">
                 <TextField
                   size="small"
@@ -87,21 +90,27 @@ const Cart = () => {
                   onChange={(e) => setCouponCode(e.target.value)}
                   placeholder="Coupon code"
                 />
-                <Button size="small" onClick={handleApplyCoupon}>
+                <Button
+                  size="small"
+                  variant="contained"
+                  onClick={handleApplyCoupon}
+                >
                   Apply
                 </Button>
               </div>
             )}
+
+            {/* ERROR */}
             {error && (
-              <p className="text-red-600 text-sm mt-2">
-                {error}
-              </p>
+              <p className="text-red-600 text-sm mt-2">{error}</p>
             )}
           </div>
 
-          {/* Pricing */}
+          {/* PRICING */}
           <div className="border rounded-md">
+            {/* <PricingCard cart={cart?.cartItems || []} /> */}
             <PricingCard cart={cart} />
+
             <div className="p-5">
               <Button
                 fullWidth
@@ -114,6 +123,7 @@ const Cart = () => {
               </Button>
             </div>
           </div>
+
         </div>
       </div>
     </div>

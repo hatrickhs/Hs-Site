@@ -45,10 +45,10 @@ useEffect(() => {
   console.log("productId:", productId);
 
   if (section === "DEALS") {
-    console.log("🔥 DEAL API CALL");
+    console.log(" DEAL API CALL");
     dispatch(fetchDealById((productId)));
   } else {
-    console.log("🟢 PRODUCT API CALL");
+    console.log(" PRODUCT API CALL");
     dispatch(fetchProductById(productId));
   }
 }, [productId, section]);

@@ -9,9 +9,6 @@ const BecomeSellerFormStep2 = ({formik}:any) => {
 
     return (
         <Box >
-
-           
-
             <>
                 <Grid container spacing={3}>
                     <Grid item xs={12}>

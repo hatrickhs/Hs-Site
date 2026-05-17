@@ -1,24 +1,3 @@
-// import { api } from '../../../config/Api'
-// import { HomeCategory } from "../../../State/types/HomeCategoryTypes";
-
-// /* ➕ ADD CATEGORY */
-// export const createHomeCategories = (data: HomeCategory[]) =>
-//   api.post("/home/categories", data);
-
-// /* ✏️ UPDATE CATEGORY */
-// export const updateHomeCategory = (
-//   id: number,
-//   data: HomeCategory
-// ) => api.patch(`/admin/home-category/${id}`, data);
-
-// /* 🗑 DELETE CATEGORY */
-// export const deleteHomeCategory = (id: number) =>
-//   api.delete(`/admin/home-category/${id}`);
-
-// /* 📥 GET ALL */
-// export const getHomeCategories = () =>
-//   api.get("/admin/home-category");
-
 
 import axios from "axios";
 import { HomeCategory } from "../../../State/types/HomeCategoryTypes";
@@ -39,7 +18,7 @@ api.interceptors.request.use((config) => {
 });
 
 export const createHomeCategory = (category: HomeCategory) =>
-  api.post(`/home/category`, category);
+  api.post(`/home/categories`, [category]);
 
 
 // Update category

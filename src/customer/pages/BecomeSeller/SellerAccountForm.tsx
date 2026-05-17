@@ -80,8 +80,6 @@ const SellerAccountForm = () => {
         },
       });
       console.log("Seller account created successfully:", response.data);
-      // Optionally: navigate to seller dashboard
-      // navigate("/seller");
     } catch (error: any) {
       console.error("Error creating seller account:", error.response || error.message);
     }

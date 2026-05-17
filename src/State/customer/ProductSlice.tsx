@@ -142,10 +142,7 @@ const productSlice = createSlice({
 
     //  Products by Category
     builder.addCase(fetchProductsByCategory.pending, (state) => { state.loading = true; });
-    // builder.addCase(fetchProductsByCategory.fulfilled, (state, action) => {
-    //   state.loading = false;
-    //   state.products = action.payload;
-    // });
+    
     builder.addCase(fetchProductsByCategory.fulfilled, (state, action) => {
   state.loading = false;
   state.products = action.payload.content || [];

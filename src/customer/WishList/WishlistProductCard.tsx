@@ -7,6 +7,7 @@ import {
   removeProductFromWishlist,
 } from "../../State/customer/WishlistSlice";
 import { teal } from "@mui/material/colors";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   item: any;
@@ -15,7 +16,9 @@ type Props = {
 
 const WishlistProductCard = ({ item, type }: Props) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
+  // REMOVE
   const handleRemove = () => {
     if (!item?.id) return;
 
@@ -26,20 +29,45 @@ const WishlistProductCard = ({ item, type }: Props) => {
     }
   };
 
+  // OPEN DETAILS PAGE
+  const handleOpen = () => {
+    if (type === "PRODUCT") {
+      navigate(`/product/${item.id}`, {
+        state: { product: item },
+      });
+    } else {
+      navigate(`/deal-details/${item.id}`, {
+        state: { deal: item },
+      });
+    }
+  };
+
+  // SAFE IMAGE FIX
+  const image = item?.images?.[0] || item?.image;
+
+  // SAFE TITLE
+  const title = item?.title || item?.name;
+
   return (
     <div className="w-64 bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 relative overflow-hidden">
 
       {/* IMAGE */}
-      <div className="w-full h-64 relative">
+      <div
+        className="w-full h-64 relative cursor-pointer"
+        onClick={handleOpen}
+      >
         <img
-          src={item.images?.[0]}
+          src={image}
           className="w-full h-full object-cover rounded-t-xl"
-          alt={item.title}
+          alt={title}
         />
 
-        {/* SINGLE CLOSE ICON */}
+        {/* DELETE BUTTON */}
         <button
-          onClick={handleRemove}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleRemove();
+          }}
           className="absolute top-2 right-2 bg-white rounded-full shadow p-1"
         >
           <Close sx={{ color: teal[500], fontSize: "1.5rem" }} />
@@ -47,9 +75,9 @@ const WishlistProductCard = ({ item, type }: Props) => {
       </div>
 
       {/* DETAILS */}
-      <div className="p-3 space-y-2">
+      <div className="p-3 space-y-2 cursor-pointer" onClick={handleOpen}>
         <p className="text-gray-800 font-medium truncate">
-          {item.title}
+          {title}
         </p>
 
         <div className="flex items-center gap-3 text-sm">

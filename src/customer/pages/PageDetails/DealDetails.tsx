@@ -48,6 +48,7 @@ const DealDetails = () => {
   const jwt = localStorage.getItem("jwt");
 
   useEffect(() => {
+    console.log("CALLING API FOR:", productId);
     if (productId) dispatch(fetchDealById(productId));
   }, [productId, dispatch]);
 
@@ -68,7 +69,7 @@ const DealDetails = () => {
     const fetchReviews = async () => {
       try {
         const res = await fetch(
-          `http://localhost:5000/api/deals/${productId}/reviews`
+          `http://localhost:5000/api/deals/${productId}/review`
         );
 
         const data = await res.json();
@@ -148,7 +149,7 @@ const DealDetails = () => {
     <div className="px-5 lg:px-20 pt-10">
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        
+
         <section className="flex gap-5">
           <div className="w-[15%] flex flex-wrap lg:flex-col gap-3">
             {deal?.images?.map((img, idx) => (
@@ -236,20 +237,25 @@ const DealDetails = () => {
           </div>
 
           <div className="mt-10 space-y-4 h-[200px] overflow-y-auto">
-            {reviews.length ? (
-              reviews.map((r) => (
-                <div key={r.id} className="relative">
-                  <ReviewCard
-                    reviewId={r.id}
-                    name={r.userName}
-                    date={new Date(r.createdAt).toLocaleString()}
-                    rating={r.reviewRating}
-                    comment={r.reviewText}
-                    avatarLetter={r.userName.charAt(0)}
-                  />
 
-                </div>
-              ))
+            {reviews.length ? (
+              reviews.map((r) => {
+                console.log("REVIEW FROM STATE:", r.id);
+
+                return (
+                  <div key={r.id} className="relative">
+                    <ReviewCard
+                      reviewId={r.id}
+                      name={r.userName}
+                      date={new Date(r.createdAt).toLocaleString()}
+                      rating={r.reviewRating}
+                      comment={r.reviewText}
+                      avatarLetter={r.userName.charAt(0)}
+                      onDeleted={() => handleDeleteReview(r.id)}
+                    />
+                  </div>
+                );
+              })
             ) : (
               <p>No reviews available</p>
             )}
@@ -267,7 +273,7 @@ const DealDetails = () => {
               key={d.id}
               className="border p-3 cursor-pointer"
               onClick={() =>
-                navigate(`/Deal-details/${d.category.categoryId}/${d.name}/${d.id}`)
+                navigate(`/Deal-details/${d.id}`)
               }
             >
               <img src={d.images?.[0] || "/default-deal.png"} className="h-40 w-full object-cover" />

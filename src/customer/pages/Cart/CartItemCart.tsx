@@ -8,34 +8,28 @@ import { updateCartItem, deleteCartItem } from '../../../State/customer/cartSlic
 
 const CartItemCart = ({ item }: { item: CartItem }) => {
   console.log("CART ITEM:", item);
-console.log("DEAL DATA:", item.deal);
-console.log("IMAGE:", item.deal?.images?.[0]);
-console.log("PRODUCT:", item.product);
+  console.log("DEAL DATA:", item.deal);
+  console.log("IMAGE:", item.deal?.images?.[0]);
+  console.log("PRODUCT:", item.product);
   console.log("CART ITEM:", item);
   const dispatch = useAppDispatch();
   const jwt = localStorage.getItem("jwt");
 
-  // const handleUpdateQuantity = (value: number) => () => {
-  //   if (!jwt) return;
-  //   dispatch(updateCartItem({ jwt, cartItemId: item.id, cartItem: { quantity: item.quantity + value,
-  //     productId: item.product?.id || null,
-  // dealId: item.deal?.id || null 
-  //    } }));
-  // };
+
 
   const handleUpdateQuantity = (value: number) => () => {
-  if (!jwt) return;
+    if (!jwt) return;
 
-  dispatch(updateCartItem({
-    jwt,
-    cartItemId: item.id,
-    cartItem: {
-      quantity: item.quantity + value,
-      productId: item.product?.id || null,
-      dealId: item.deal?.id || null
-    }
-  }));
-};
+    dispatch(updateCartItem({
+      jwt,
+      cartItemId: item.id,
+      cartItem: {
+        quantity: item.quantity + value,
+        productId: item.product?.id || null,
+        dealId: item.deal?.id || null,
+      }
+    }));
+  };
 
   const handleDeleteItem = () => {
     if (!jwt) return;
@@ -49,9 +43,9 @@ console.log("PRODUCT:", item.product);
         <div className='space-y-2'>
           {/* <h1 className='font-semibold text-lg'>{item.product.seller?.sellerName || "Unknown Seller"}</h1> */}
           <h1 className='font-semibold text-lg'>
-  {item?.product?.seller?.sellerName ||  item?.deal?.name || "Unknown Seller"}
-</h1>
-          <p className='text-gray-600 font-medium text-sm'>{item.product?.title }</p>
+            {item?.product?.seller?.sellerName || item?.deal?.name || "Unknown Seller"}
+          </h1>
+          <p className='text-gray-600 font-medium text-sm'>{item.product?.title}</p>
           <p className='text-gray-400 text-xs'><strong>Sold by:</strong> Natural Lifestyle Products Private Limited</p>
           <p className='text-sm'>7 days replacement available</p>
           <p className='text-sm text-gray-500'><strong>Quantity:</strong> {item.quantity}</p>

@@ -163,14 +163,16 @@ const Product = () => {
 
                 activeDeals.map((deal: any) => {
 
+                  console.log("DEAL =>", deal);
+
                   //convert deal → product format
                   const dealItem = {
                     ...deal,
                     images: deal.images?.length
                       ? deal.images
                       : deal.image
-                      ? [deal.image]
-                      : [],
+                        ? [deal.image]
+                        : [],
                   };
 
                   return (
@@ -178,10 +180,17 @@ const Product = () => {
                       key={deal.id}
                       onClick={() =>
                         navigate(
-                          `/Deal-details/${deal.category.categoryId}/${deal.name}/${deal.id}`
+                          `/Deal-details/${deal.id}`
                         )
                       }
                     >
+
+                      {section === "DEALS" && deal.expiryTime && (
+                        <div className="px-2 py-1">
+                          <DealTimer expiryTime={deal.expiryTime} />
+                        </div>
+                      )}
+
                       {/* REUSE PRODUCT CARD */}
                       <ProductCard item={dealItem} />
                     </div>
