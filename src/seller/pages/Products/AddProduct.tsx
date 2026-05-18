@@ -172,7 +172,7 @@ const AddProduct = () => {
       }, 3000);
       return () => clearTimeout(timer);
     }
-  }, [success, error]);
+  }, [success, error, dispatch]);
 
   return (
     <div className="p-6">
@@ -192,7 +192,7 @@ const AddProduct = () => {
             <div className="flex gap-2 mt-2">
               {formik.values.images.map((img, i) => (
                 <div key={i} className="relative">
-                  <img src={img} className="w-20 h-20 object-cover rounded" />
+                  <img src={img} alt="product-image" className="w-20 h-20 object-cover rounded" />
                   <IconButton
                     size="small"
                     color="error"
