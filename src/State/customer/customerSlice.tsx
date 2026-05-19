@@ -37,7 +37,7 @@ export const createHomeCategory = createAsyncThunk<HomeCategory[]>(
   "home/createHomeCategory",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await api.get("admin/home-category");
+      const res = await api.get("/admin/home-category");
       return res.data;
     } catch (error: any) {
       return rejectWithValue(
