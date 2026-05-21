@@ -49,7 +49,8 @@ public class EmailService {
 
             helper.setTo(userEmail);
 
-            helper.setFrom("HS Bazaar <abd291001@smtp-brevo.com>");
+//            helper.setFrom("HS Bazaar <abd291001@smtp-brevo.com>");
+            helper.setFrom("abd291001@smtp-brevo.com", "HS Bazaar");
 
             helper.setSubject(subject);
             helper.setText(text, true);
@@ -59,6 +60,7 @@ public class EmailService {
             System.out.println("EMAIL SENT SUCCESSFULLY TO: " + userEmail);
 
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("EMAIL ERROR: " + e.getMessage());
             throw new MailSendException("Failed to send email: " + e.getMessage(), e);
         }
