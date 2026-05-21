@@ -52,10 +52,11 @@ public class SecurityConfig {
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
               CorsConfiguration cfg = new CorsConfiguration();
 //              cfg.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
-                cfg.setAllowedOrigins(List.of(
-                        "http://localhost:3000",
-                        "https://hs-site-beta.vercel.app"
-                ));
+//                cfg.setAllowedOrigins(List.of(
+//                        "http://localhost:3000",
+//                        "https://hs-site-beta.vercel.app"
+//                ));
+                cfg.setAllowedOriginPatterns(List.of("*"));
               cfg.setAllowedMethods(List.of("GET","POST","PUT","DELETE","PATCH","OPTIONS"));
               cfg.setAllowedHeaders(Collections.singletonList("*"));
               cfg.setAllowCredentials(true);
