@@ -16,7 +16,6 @@
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.126",
     "axios": "^1.13.2",
     "cors": "^2.8.5",
     "dayjs": "^1.11.19",
@@ -38,7 +37,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "CI=false react-scripts build", 
+    "build": "CI=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -62,6 +61,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.17.23",
+    "@types/node": "^25.9.0",
     "@types/react": "^18.3.28",
     "@types/react-dom": "^18.3.7",
     "@types/react-slick": "^0.23.13",

@@ -41,48 +41,48 @@ const LoginForm: React.FC<LoginFormProps> = ({ from }) => {
     }
 
     React.useEffect(() => {
-    if (auth.jwt && auth.role) {
+        if (auth.jwt && auth.role) {
 
-        localStorage.setItem("jwt", auth.jwt);
+            localStorage.setItem("jwt", auth.jwt);
 
-        const pendingWishlist = localStorage.getItem("pendingWishlist");
+            const pendingWishlist = localStorage.getItem("pendingWishlist");
 
-        if (pendingWishlist) {
-            dispatch(
-                addProductToWishlist({
-                    productId: Number(pendingWishlist),
-                })
-            );
+            if (pendingWishlist) {
+                dispatch(
+                    addProductToWishlist({
+                        productId: Number(pendingWishlist),
+                    })
+                );
 
-            localStorage.removeItem("pendingWishlist");
-        }
-
-        if (pendingProduct) {
-            dispatch(
-                addItemToCart({
-                    jwt: auth.jwt,
-                    request: pendingProduct,
-                })
-            );
-        }
-
-        const timer = setTimeout(() => {
-
-            if (auth.role === "ROLE_ADMIN") {
-                navigate("/admin");
-            } else if (auth.role === "ROLE_SELLER") {
-                navigate("/seller");
-            } else if (auth.role === "ROLE_CUSTOMER") {
-                navigate(from || "/");
-            } else {
-                navigate("/");
+                localStorage.removeItem("pendingWishlist");
             }
 
-        }, 1500);
+            if (pendingProduct) {
+                dispatch(
+                    addItemToCart({
+                        jwt: auth.jwt,
+                        request: pendingProduct,
+                    })
+                );
+            }
 
-        return () => clearTimeout(timer);
-    }
-}, [auth.jwt, auth.role]);
+            const timer = setTimeout(() => {
+
+                if (auth.role === "ROLE_ADMIN") {
+                    navigate("/admin");
+                } else if (auth.role === "ROLE_SELLER") {
+                    navigate("/seller");
+                } else if (auth.role === "ROLE_CUSTOMER") {
+                    navigate(from || "/");
+                } else {
+                    navigate("/");
+                }
+
+            }, 1500);
+
+            return () => clearTimeout(timer);
+        }
+    }, [auth.jwt, auth.role]);
 
     React.useEffect(() => {
         if (auth.message) {
@@ -136,6 +136,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ from }) => {
 
                     {auth.otpSent ? (
                         <Button
+                            type="submit"
                             onClick={() => formik.handleSubmit()}
                             fullWidth
                             variant="contained"
@@ -145,6 +146,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ from }) => {
                         </Button>
                     ) : (
                         <Button
+                            type="button"
                             onClick={handleSendOtp}
                             fullWidth
                             variant="contained"
@@ -169,8 +171,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ from }) => {
                     </Snackbar>
 
                 </div>
-            </h1>
-        </div>
+            </h1 >
+        </div >
     )
 }
 
