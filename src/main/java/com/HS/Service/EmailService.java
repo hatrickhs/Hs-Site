@@ -94,7 +94,6 @@ public class EmailService {
             System.out.println("EMAIL SENT SUCCESSFULLY TO: " + userEmail);
 
         } catch (Exception e) {
-            // ❌ IMPORTANT: DO NOT THROW EXCEPTION
             System.out.println("EMAIL FAILED (IGNORED): " + e.getMessage());
         }
     }
