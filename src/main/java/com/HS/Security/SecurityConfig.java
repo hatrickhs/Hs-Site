@@ -54,7 +54,7 @@ public class SecurityConfig {
 //              cfg.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
                 cfg.setAllowedOrigins(List.of(
                         "http://localhost:3000",
-                        "https://hs-site-bk5m-git-main-hatrickhs594-9439s-projects.vercel.app"
+                        "https://hs-site-beta.vercel.app"
                 ));
               cfg.setAllowedMethods(List.of("GET","POST","PUT","DELETE","PATCH","OPTIONS"));
               cfg.setAllowedHeaders(Collections.singletonList("*"));
