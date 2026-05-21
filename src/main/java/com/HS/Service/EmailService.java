@@ -50,7 +50,8 @@ public class EmailService {
             helper.setTo(userEmail);
 
             // 🔥 IMPORTANT FIX
-            helper.setFrom("HS Bazaar <abd291001@smtp-brevo.com>");
+//            helper.setFrom("HS Bazaar <abd291001@smtp-brevo.com>");
+            helper.setFrom("HS Bazaar <hatrickhs594@gmail.com>");
 
             helper.setSubject(subject);
             helper.setText(text, true);
