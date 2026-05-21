@@ -38,7 +38,7 @@ const AddNewCouponForm = () => {
 
       try {
         const response = await axios.post(
-          'http://localhost:5000/api/coupons',
+          'https://hs-site-1.onrender.com/api/coupons',
           formattedValues,
           {
             headers: {
