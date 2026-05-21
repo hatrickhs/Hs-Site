@@ -2,7 +2,7 @@
 import axios from "axios";
 import { HomeCategory } from "../../../State/types/HomeCategoryTypes";
 
-const API_URL = "http://localhost:5000";
+const API_URL = "https://hs-site-1.onrender.com";
 
 export const api = axios.create({
   baseURL: API_URL,
