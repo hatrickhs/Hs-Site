@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+
+  app:
+    build: .
+    container_name: ecommerce-app
+    ports:
+      - "5000:8080"
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://ballast.proxy.rlwy.net:42796/railway
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: JPUhqBMhFnFjlSteDjjzSVkQYvBfiMhk
+
+      SPRING_MAIL_HOST: smtp-relay.brevo.com
+      SPRING_MAIL_PORT: 587
+
+      SPRING_MAIL_USERNAME: ${SPRING_MAIL_USERNAME}
+      SPRING_MAIL_PASSWORD: ${SPRING_MAIL_PASSWORD}
+
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+
+    restart: always
