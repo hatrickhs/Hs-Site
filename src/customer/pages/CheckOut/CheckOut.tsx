@@ -57,7 +57,7 @@ const CheckOut = () => {
   const fetchAddresses = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/addresses/all",
+        "https://hs-site-1.onrender.com/api/addresses/all",
         {
           headers: { Authorization: `Bearer ${jwt}` },
         }
@@ -87,7 +87,7 @@ const CheckOut = () => {
   const handleRemoveAddress = async (id: number) => {
     try {
       await axios.delete(
-        `http://localhost:5000/api/addresses/delete/${id}`,
+        `https://hs-site-1.onrender.com/api/addresses/delete/${id}`,
         {
           headers: { Authorization: `Bearer ${jwt}` },
         }
@@ -122,7 +122,7 @@ const CheckOut = () => {
       };
 
       const res = await axios.post(
-        `http://localhost:5000/api/orders?paymentMethod=${paymentMethod}`,
+        `https://hs-site-1.onrender.com/api/orders?paymentMethod=${paymentMethod}`,
         payload,
         {
           headers: { Authorization: `Bearer ${jwt}` },
