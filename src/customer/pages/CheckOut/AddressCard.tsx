@@ -7,8 +7,8 @@ interface AddressCardProps {
   address: any;
   selected: boolean;
   onSelect: (addr: any) => void;
-  onRemove?: (id: number) => void; // 👈 optional
-  showDelete?: boolean;             // 👈 NEW
+  onRemove?: (id: number) => void; 
+  showDelete?: boolean;             
 }
 
 const AddressCard: React.FC<AddressCardProps> = ({

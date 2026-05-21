@@ -40,7 +40,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ onSave }) => {
     onSubmit: async (values) => {
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/addresses/add",
+          "https://hs-site-1.onrender.com/api/addresses/add",
           values,
           { headers: { Authorization: `Bearer ${token}` } }
         );
