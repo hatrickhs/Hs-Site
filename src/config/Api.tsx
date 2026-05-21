@@ -33,7 +33,7 @@
 import axios from "axios";
 
 export const API_URL =
-  process.env.REACT_APP_API_URL || "https://hs-site.onrender.com";
+  process.env.REACT_APP_API_URL || "https://hs-site-1.onrender.com";
 
 console.log("API_URL =", API_URL);
 

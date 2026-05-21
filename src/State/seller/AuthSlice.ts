@@ -11,6 +11,9 @@ export const sendLoginSignupOtp = createAsyncThunk(
       const response = await api.post("/auth/sent/login-signup-otp", { email });
       return response.data;
     } catch (error: any) {
+      console.log("OTP ERROR =", error);
+  console.log("OTP RESPONSE =", error.response);
+  console.log("OTP DATA =", error.response?.data);
       return rejectWithValue(error.response?.data?.message || "Failed to send OTP");
     }
   }
