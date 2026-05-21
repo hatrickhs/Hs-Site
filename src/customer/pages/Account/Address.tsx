@@ -26,14 +26,14 @@ const Address = (props: AddressProps) => {
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const token = localStorage.getItem("jwt"); // ✅ FIXED
+        const token = localStorage.getItem("jwt"); 
 
         if (!token) {
           console.error("No JWT token found! Please login first.");
           return;
         }
 
-        const res = await axios.get("http://localhost:5000/api/addresses/all", {
+        const res = await axios.get("https://hs-site-1.onrender.com/api/addresses/all", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -64,7 +64,7 @@ const Address = (props: AddressProps) => {
         return;
       }
 
-      await axios.delete(`http://localhost:5000/api/addresses/${id}`, {
+      await axios.delete(`https://hs-site-1.onrender.com/api/addresses/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
