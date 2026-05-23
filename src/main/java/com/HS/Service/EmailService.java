@@ -126,7 +126,7 @@ public class EmailService {
             {
               "sender":{
                 "name":"HS Bazaar",
-                "email":"abd291001@smtp-brevo.com"
+                "email":"hatrickhs594@gmail.com"
               },
               "to":[
                 {
