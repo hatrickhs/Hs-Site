@@ -97,7 +97,7 @@ const handleAddToCart = () => {
 
     const token = localStorage.getItem('jwt');
 
-    fetch(`http://localhost:5000/api/products/${productId}/review`, {
+    fetch(`https://hs-site-1.onrender.com/api/products/${productId}/review`, {
     
     })
       .then(res => {

@@ -69,7 +69,7 @@ const DealDetails = () => {
     const fetchReviews = async () => {
       try {
         const res = await fetch(
-          `http://localhost:5000/api/deals/${productId}/review`
+          `https://hs-site-1.onrender.com/api/deals/${productId}/review`
         );
 
         const data = await res.json();
@@ -97,7 +97,7 @@ const DealDetails = () => {
 
   const handleDeleteReview = async (reviewId: number) => {
     try {
-      await fetch(`http://localhost:5000/api/reviews/${reviewId}`, {
+      await fetch(`https://hs-site-1.onrender.com/api/reviews/${reviewId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${jwt}`,
