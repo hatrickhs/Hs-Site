@@ -96,7 +96,6 @@ const Orders = () => {
     if (jwt) dispatch(fetchUserOrderHistory(jwt));
   }, [dispatch, jwt]);
 
-  // ✅ SAFE FIX
   const safeOrders = Array.isArray(orders) ? orders : [];
 
   if (loading) {
