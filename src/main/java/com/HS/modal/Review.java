@@ -33,6 +33,7 @@ public class Review {
     @JoinColumn(name = "product_id", nullable = true)
     private Product product;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "deal_id", nullable = true)
     private Deal deal;
