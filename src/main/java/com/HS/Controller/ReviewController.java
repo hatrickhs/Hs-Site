@@ -12,6 +12,7 @@ import jdk.jshell.spi.ExecutionControl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -31,17 +32,24 @@ public class ReviewController {
         List<Review> reviews = reviewService.getReviewProductId(productId);
         return ResponseEntity.ok(reviews);
     }
-        @PostMapping("/products/{productId}/reviews")
+//        @PostMapping("/products/{productId}/reviews")
+//    public ResponseEntity<Review> writeReview(
+//                @RequestBody CreateReviewRequest req,
+//                @PathVariable Long productId,
+//                @RequestHeader("Authorization") String jwt) throws Exception {
+
+    @PostMapping(value = "/products/{productId}/reviews", consumes = "multipart/form-data")
     public ResponseEntity<Review> writeReview(
-                @RequestBody CreateReviewRequest req,
-                @PathVariable Long productId,
-                @RequestHeader("Authorization") String jwt) throws Exception {
+            @RequestPart("review") CreateReviewRequest req,
+            @RequestPart(value = "images", required = false) List<MultipartFile> images,
+            @PathVariable Long productId,
+            @RequestHeader("Authorization") String jwt) throws Exception {
 
             User user = userService.findUserByJwtToken(jwt);
             Product product = productService.findProductById(productId);
 
             Review review =reviewService.createReview(
-                    req, user, product
+                    req, user, product, images
             );
             return ResponseEntity.ok(review);
 
@@ -88,9 +96,16 @@ public class ReviewController {
         return ResponseEntity.ok(reviews);
     }
 
-    @PostMapping("/deals/{dealId}/reviews")
+//    @PostMapping("/deals/{dealId}/reviews")
+//    public ResponseEntity<Review> writeDealReview(
+//            @RequestBody CreateReviewRequest req,
+//            @PathVariable Long dealId,
+//            @RequestHeader("Authorization") String jwt) throws Exception {
+
+    @PostMapping(value = "/deals/{dealId}/reviews", consumes = "multipart/form-data")
     public ResponseEntity<Review> writeDealReview(
-            @RequestBody CreateReviewRequest req,
+            @RequestPart("review") CreateReviewRequest req,
+            @RequestPart(value = "images", required = false) List<MultipartFile> images,
             @PathVariable Long dealId,
             @RequestHeader("Authorization") String jwt) throws Exception {
 
@@ -99,7 +114,8 @@ public class ReviewController {
         Review review = reviewService.createDealReview(
                 req,
                 user,
-                dealId
+                dealId,
+                images
         );
 
         return ResponseEntity.ok(review);
