@@ -10,46 +10,57 @@ import { furnitureLevelThree } from '../../data/category/LevelThree/furnitureLev
 import { Box } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 
-const CategoryTwo:{[key:string]:any[]}={
-  men:menLevelTwo,
-  women:womenLevelTwo,
-  electronics:electronicsLevelTwo,
-  home_furniture:furnitureLevelTwo,
+const CategoryTwo: { [key: string]: any[] } = {
+  men: menLevelTwo,
+  women: womenLevelTwo,
+  electronics: electronicsLevelTwo,
+  home_furniture: furnitureLevelTwo,
 }
 
-const CategoryThree:{[key:string]:any[]}={
-  men:menLevelThree,
-  women:womenLevelThree,
-  electronics:electronicsLevelThree,
-  home_furniture:furnitureLevelThree,
+const CategoryThree: { [key: string]: any[] } = {
+  men: menLevelThree,
+  women: womenLevelThree,
+  electronics: electronicsLevelThree,
+  home_furniture: furnitureLevelThree,
 }
 
-const CategorySheet = ({selectedCategory,setShowCategorySheet}:any) => {
-  const navigate=useNavigate();
+const CategorySheet = ({ selectedCategory, setShowCategorySheet }: any) => {
+  const navigate = useNavigate();
 
-  const childCategory=(Category:any,parentCategoryId:any)=>{
-    return Category.filter((child:any)=>child.parentCategoryId==parentCategoryId)
+  const childCategory = (Category: any, parentCategoryId: any) => {
+    return Category.filter((child: any) => child.parentCategoryId == parentCategoryId)
   }
 
   return (
-    <Box sx={{zIndex: 2}} className="bg-white shadow-lg lg:h-[500px] overflow-y-auto">
+    <Box sx={{ zIndex: 2 }} className="bg-white shadow-lg lg:h-[500px] overflow-y-auto">
       <div className='flex text-sm flex-wrap'>
         {
-          CategoryTwo[selectedCategory]?.map((item:any,index:number) => (
+          CategoryTwo[selectedCategory]?.map((item: any, index: number) => (
             <div
               key={item.categoryId}
-              className={`p-8 lg:w-[20%] ${index%2===0? "bg-slate-50":"bg-white"}`}
+              className={`p-8 lg:w-[20%] ${index % 2 === 0 ? "bg-slate-50" : "bg-white"}`}
             >
               <p className='text-primary-color mb-5 font-semibold'>{item.name}</p>
 
               <ul className='space-y-3'>
-                {childCategory(CategoryThree[selectedCategory], item.categoryId).map((child:any)=>(
-                  <li 
+                {childCategory(CategoryThree[selectedCategory], item.categoryId).map((child: any) => (
+                  // <li 
+                  //   key={child.categoryId}
+                  //   onClick={() =>{ navigate("/products/" + child.categoryId);
+                  //     setShowCategorySheet(false);
+                  //   }}
+                  //   className='hover:text-primary-color cursor-pointer'
+                  // >
+                  //   {child.name}
+                  // </li>
+
+                  <li
                     key={child.categoryId}
-                    onClick={() =>{ navigate("/products/" + child.categoryId);
+                    onClick={() => {
                       setShowCategorySheet(false);
+                      navigate("/products/" + child.categoryId);
                     }}
-                    className='hover:text-primary-color cursor-pointer'
+                    className="hover:text-primary-color cursor-pointer"
                   >
                     {child.name}
                   </li>
