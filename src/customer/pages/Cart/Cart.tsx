@@ -22,6 +22,9 @@ const Cart = () => {
   const { cart, loading, error } = useAppSelector((state) => state.cart);
   const { jwt, role } = useAppSelector((state) => state.auth);
 
+  console.log("JWT:", jwt);
+console.log("ROLE:", role);
+
   // Fetch cart
   useEffect(() => {
     if (jwt && role) {
