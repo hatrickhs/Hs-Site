@@ -38,7 +38,7 @@ const RegisterForm = () => {
             const response: any = await dispatch(signup(signupData));
 
             if (response?.payload) {
-                navigate("/"); // success – go home
+                navigate("/"); 
             }
         }
     });

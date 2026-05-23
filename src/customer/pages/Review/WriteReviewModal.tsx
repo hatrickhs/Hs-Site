@@ -108,8 +108,8 @@ const WriteReviewModal: React.FC<WriteReviewModalProps> = ({
       const token = jwt.startsWith("Bearer ") ? jwt : `Bearer ${jwt}`;
 
       const url = dealId
-        ? `http://localhost:5000/api/deals/${dealId}/reviews`
-        : `http://localhost:5000/api/products/${productId}/reviews`;
+        ? `https://hs-site-1.onrender.com/api/deals/${dealId}/reviews`
+        : `https://hs-site-1.onrender.com/api/products/${productId}/reviews`;
 
       await axios.post(
         url,
