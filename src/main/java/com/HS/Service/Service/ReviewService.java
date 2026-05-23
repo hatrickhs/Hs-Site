@@ -11,11 +11,9 @@ import java.util.List;
 
 public interface ReviewService {
 
-//    Review createReview(CreateReviewRequest req,
-//                        User user,
-//                        Product product);
-
-   Review createReview(CreateReviewRequest req, User user, Product product, List<MultipartFile> images);
+    Review createReview(CreateReviewRequest req,
+                        User user,
+                        Product product);
 
     List<Review> getReviewProductId(Long productId);
 
@@ -25,9 +23,7 @@ public interface ReviewService {
 
     Review getReviewById(Long reviewId) throws Exception;
 
-//    Review createDealReview(CreateReviewRequest req, User user, Long dealId);
-
-   Review createDealReview(CreateReviewRequest req, User user, Long dealId, List<MultipartFile> images);
+    Review createDealReview(CreateReviewRequest req, User user, Long dealId);
 
     List<Review> getReviewByDealId(Long dealId);
 

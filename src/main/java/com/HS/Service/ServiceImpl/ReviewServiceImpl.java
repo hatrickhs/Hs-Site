@@ -2,7 +2,6 @@ package com.HS.Service.ServiceImpl;
 
 import com.HS.Repository.DealRepository;
 import com.HS.Repository.ReviewRepository;
-import com.HS.Service.Service.FileService;
 import com.HS.Service.Service.ReviewService;
 import com.HS.modal.Deal;
 import com.HS.modal.Product;
@@ -11,9 +10,7 @@ import com.HS.modal.User;
 import com.HS.request.CreateReviewRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,40 +19,15 @@ public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final DealRepository dealRepository;
-    private final FileService fileService;
-
-//    @Override
-//    public Review createReview(CreateReviewRequest req, User user, Product product) {
-//        Review review = new Review();
-//        review.setUser(user);
-//        review.setProduct(product);
-//        review.setReviewText(req.getReviewText());
-//        review.setRating(req.getReviewRating());
-//        review.setProductImages(req.getProductImages());
-//
-//        product.getReviews().add(review);
-//        return reviewRepository.save(review);
-//    }
 
     @Override
-    public Review createReview(CreateReviewRequest req, User user, Product product, List<MultipartFile> images) {
-
+    public Review createReview(CreateReviewRequest req, User user, Product product) {
         Review review = new Review();
         review.setUser(user);
         review.setProduct(product);
         review.setReviewText(req.getReviewText());
         review.setRating(req.getReviewRating());
-
-        List<String> imageUrls = new ArrayList<>();
-
-        if (images != null) {
-            for (MultipartFile img : images) {
-                String url = fileService.upload(img); // உங்கள் upload logic
-                imageUrls.add(url);
-            }
-        }
-
-        review.setProductImages(imageUrls);
+        review.setProductImages(req.getProductImages());
 
         product.getReviews().add(review);
         return reviewRepository.save(review);
@@ -99,24 +71,8 @@ public class ReviewServiceImpl implements ReviewService {
 
     //Deal Review
 
-//    @Override
-//    public Review createDealReview(CreateReviewRequest req, User user, Long dealId) {
-//
-//        Deal deal = dealRepository.findById(dealId)
-//                .orElseThrow(() -> new RuntimeException("Deal not found"));
-//
-//        Review review = new Review();
-//        review.setUser(user);
-//        review.setDeal(deal); // 🔥 IMPORTANT
-//        review.setReviewText(req.getReviewText());
-//        review.setRating(req.getReviewRating());
-//        review.setProductImages(req.getProductImages());
-//
-//        return reviewRepository.save(review);
-//    }
-
     @Override
-    public Review createDealReview(CreateReviewRequest req, User user, Long dealId, List<MultipartFile> images) {
+    public Review createDealReview(CreateReviewRequest req, User user, Long dealId) {
 
         Deal deal = dealRepository.findById(dealId)
                 .orElseThrow(() -> new RuntimeException("Deal not found"));
@@ -126,17 +82,7 @@ public class ReviewServiceImpl implements ReviewService {
         review.setDeal(deal);
         review.setReviewText(req.getReviewText());
         review.setRating(req.getReviewRating());
-
-        List<String> imageUrls = new ArrayList<>();
-
-        if (images != null) {
-            for (MultipartFile img : images) {
-                String url = fileService.upload(img);
-                imageUrls.add(url);
-            }
-        }
-
-        review.setProductImages(imageUrls);
+        review.setProductImages(req.getProductImages());
 
         return reviewRepository.save(review);
     }
