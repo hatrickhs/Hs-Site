@@ -91,44 +91,58 @@ import { HomeCategory } from "../../State/types/HomeCategoryTypes";
 const ElectricCategory = () => {
   const customer = useAppSelector((state) => state.customer);
 
-  // Filter electric categories
   const electricCategories: HomeCategory[] =
     customer.categories.filter(
       (item) => item.section === "ELECTRIC_CATEGORIES"
     );
 
-  // Duplicate items for seamless infinite scroll
-  const scrollingItems = [
-    ...electricCategories,
-    ...electricCategories,
-  ];
-
   return (
     <div className="overflow-hidden border-b py-5 bg-white">
-      <div className="scroll-track">
-        {scrollingItems.map((item, index) => (
-          <div
-            key={`${item.id}-${index}`}
-            className="flex-shrink-0 mr-4"
-          >
-            <ElectricCategoryCart item={item} />
-          </div>
-        ))}
+      <div className="marquee">
+        
+        {/* First Set */}
+        <div className="marquee-group">
+          {electricCategories.map((item) => (
+            <div
+              key={`first-${item.id}`}
+              className="flex-shrink-0 mr-4"
+            >
+              <ElectricCategoryCart item={item} />
+            </div>
+          ))}
+        </div>
+
+        {/* Duplicate Set */}
+        <div className="marquee-group">
+          {electricCategories.map((item) => (
+            <div
+              key={`second-${item.id}`}
+              className="flex-shrink-0 mr-4"
+            >
+              <ElectricCategoryCart item={item} />
+            </div>
+          ))}
+        </div>
       </div>
 
       <style>
         {`
-          .scroll-track {
+          .marquee {
             display: flex;
             width: max-content;
-            animation: infiniteScroll 20s linear infinite;
+            animation: marqueeScroll 20s linear infinite;
           }
 
-          .scroll-track:hover {
+          .marquee:hover {
             animation-play-state: paused;
           }
 
-          @keyframes infiniteScroll {
+          .marquee-group {
+            display: flex;
+            align-items: center;
+          }
+
+          @keyframes marqueeScroll {
             from {
               transform: translateX(0);
             }
