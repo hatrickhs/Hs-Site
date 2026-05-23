@@ -76,6 +76,9 @@ public class Deal {
     @JoinColumn(name = "category_id")
     private HomeCategory category;
 
+    @OneToMany(mappedBy = "deal", cascade = CascadeType.ALL)
+    private List<Review> reviews = new ArrayList<>();
+
     @Column(name = "expiry_time")
     private LocalDateTime expiryTime;
 
