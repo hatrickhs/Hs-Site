@@ -31,7 +31,7 @@ const ReviewCard = ({
     if (!token) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/reviews/${reviewId}`, {
+      const response = await fetch(`https://hs-site-1.onrender.com/api/reviews/${reviewId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,

@@ -170,12 +170,28 @@ const WriteReviewModal: React.FC<WriteReviewModalProps> = ({
             onClick={() => document.getElementById("file-input")?.click()}
           >
             {uploading ? <CircularProgress size={24} /> : "+"}
-            <input
+            {/* <input
               id="file-input"
               type="file"
               hidden
               onChange={(e) => {
                 if (e.target.files) handleUpload(e.target.files[0]);
+              }}
+            /> */}
+            <input
+              id="file-input"
+              type="file"
+              hidden
+              multiple
+              onChange={async (e) => {
+                if (e.target.files) {
+
+                  const files = Array.from(e.target.files);
+
+                  for (const file of files) {
+                    await handleUpload(file);
+                  }
+                }
               }}
             />
           </Box>
