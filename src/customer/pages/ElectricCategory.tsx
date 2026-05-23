@@ -97,27 +97,27 @@ const ElectricCategory = () => {
     );
 
   return (
-    <div className="overflow-hidden border-b py-5 bg-white">
-      <div className="marquee">
+    <div className="overflow-hidden border-b py-5 bg-white w-full">
+      <div className="marquee-wrapper">
         
-        {/* First Set */}
+        {/* First Copy */}
         <div className="marquee-group">
           {electricCategories.map((item) => (
             <div
               key={`first-${item.id}`}
-              className="flex-shrink-0 mr-4"
+              className="flex-shrink-0 px-4"
             >
               <ElectricCategoryCart item={item} />
             </div>
           ))}
         </div>
 
-        {/* Duplicate Set */}
+        {/* Second Copy */}
         <div className="marquee-group">
           {electricCategories.map((item) => (
             <div
               key={`second-${item.id}`}
-              className="flex-shrink-0 mr-4"
+              className="flex-shrink-0 px-4"
             >
               <ElectricCategoryCart item={item} />
             </div>
@@ -127,28 +127,29 @@ const ElectricCategory = () => {
 
       <style>
         {`
-          .marquee {
+          .marquee-wrapper {
             display: flex;
-            width: max-content;
-            animation: marqueeScroll 20s linear infinite;
+            width: fit-content;
+            animation: marquee 20s linear infinite;
           }
 
-          .marquee:hover {
+          .marquee-wrapper:hover {
             animation-play-state: paused;
           }
 
           .marquee-group {
             display: flex;
             align-items: center;
+            flex-shrink: 0;
           }
 
-          @keyframes marqueeScroll {
-            from {
+          @keyframes marquee {
+            0% {
               transform: translateX(0);
             }
 
-            to {
-              transform: translateX(-50%);
+            100% {
+              transform: translateX(-100%);
             }
           }
         `}
