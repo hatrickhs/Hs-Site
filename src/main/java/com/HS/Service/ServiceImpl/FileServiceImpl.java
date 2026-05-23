@@ -10,25 +10,36 @@ import java.util.UUID;
 @Service
 public class FileServiceImpl implements FileService {
 
-    private final String UPLOAD_DIR = "uploads/";
+    private final String UPLOAD_DIR = System.getProperty("user.dir") + "/uploads/";
 
     @Override
     public String upload(MultipartFile file) {
         try {
+
+            // ✅ check file
+            if (file == null || file.isEmpty()) {
+                throw new RuntimeException("File is empty");
+            }
+
+            // ✅ unique file name
             String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
 
+            // ✅ create folder if not exists
             File dir = new File(UPLOAD_DIR);
             if (!dir.exists()) {
                 dir.mkdirs();
             }
 
-            File destination = new File(UPLOAD_DIR + fileName);
+            // ✅ save file
+            File destination = new File(dir, fileName);
             file.transferTo(destination);
 
+            // ✅ return URL
             return "/uploads/" + fileName;
 
         } catch (Exception e) {
-            throw new RuntimeException("File upload failed");
+            e.printStackTrace();
+            throw new RuntimeException("File upload failed: " + e.getMessage());
         }
     }
 }

@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.http.MediaType;
 import java.util.List;
 
 @RestController
@@ -38,7 +38,7 @@ public class ReviewController {
 //                @PathVariable Long productId,
 //                @RequestHeader("Authorization") String jwt) throws Exception {
 
-    @PostMapping(value = "/products/{productId}/reviews", consumes = "multipart/form-data")
+    @PostMapping(value = "/products/{productId}/reviews", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Review> writeReview(
             @RequestPart("review") CreateReviewRequest req,
             @RequestPart(value = "images", required = false) List<MultipartFile> images,
@@ -102,7 +102,7 @@ public class ReviewController {
 //            @PathVariable Long dealId,
 //            @RequestHeader("Authorization") String jwt) throws Exception {
 
-    @PostMapping(value = "/deals/{dealId}/reviews", consumes = "multipart/form-data")
+    @PostMapping(value = "/deals/{dealId}/reviews", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Review> writeDealReview(
             @RequestPart("review") CreateReviewRequest req,
             @RequestPart(value = "images", required = false) List<MultipartFile> images,
