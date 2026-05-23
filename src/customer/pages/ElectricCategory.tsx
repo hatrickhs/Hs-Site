@@ -96,51 +96,32 @@ const ElectricCategory = () => {
       (item) => item.section === "ELECTRIC_CATEGORIES"
     );
 
+  // Duplicate for seamless scroll
+  const items = [...electricCategories, ...electricCategories];
+
   return (
     <div className="overflow-hidden border-b py-5 bg-white w-full">
-      <div className="marquee-wrapper">
-        
-        {/* First Copy */}
-        <div className="marquee-group">
-          {electricCategories.map((item) => (
-            <div
-              key={`first-${item.id}`}
-              className="flex-shrink-0 px-4"
-            >
-              <ElectricCategoryCart item={item} />
-            </div>
-          ))}
-        </div>
-
-        {/* Second Copy */}
-        <div className="marquee-group">
-          {electricCategories.map((item) => (
-            <div
-              key={`second-${item.id}`}
-              className="flex-shrink-0 px-4"
-            >
-              <ElectricCategoryCart item={item} />
-            </div>
-          ))}
-        </div>
+      <div className="marquee-track">
+        {items.map((item, index) => (
+          <div
+            key={`${item.id}-${index}`}
+            className="flex-shrink-0 px-4"
+          >
+            <ElectricCategoryCart item={item} />
+          </div>
+        ))}
       </div>
 
       <style>
         {`
-          .marquee-wrapper {
+          .marquee-track {
             display: flex;
-            width: fit-content;
+            width: max-content;
             animation: marquee 20s linear infinite;
           }
 
-          .marquee-wrapper:hover {
+          .marquee-track:hover {
             animation-play-state: paused;
-          }
-
-          .marquee-group {
-            display: flex;
-            align-items: center;
-            flex-shrink: 0;
           }
 
           @keyframes marquee {
@@ -149,7 +130,7 @@ const ElectricCategory = () => {
             }
 
             100% {
-              transform: translateX(-100%);
+              transform: translateX(-50%);
             }
           }
         `}
