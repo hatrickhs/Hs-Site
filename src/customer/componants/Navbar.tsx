@@ -128,7 +128,10 @@ const Navbar = () => {
           onMouseEnter={() => setShowCategorySheet(true)}
           className="categorySheet absolute top-[4.41rem] left-20 right-20 border"
         >
-          <CategorySheet selectedCategory={selectedCategory} />
+          <CategorySheet 
+          selectedCategory={selectedCategory}
+          setShowCategorySheet={setShowCategorySheet}
+          />
         </div>
       )}
     </Box>
