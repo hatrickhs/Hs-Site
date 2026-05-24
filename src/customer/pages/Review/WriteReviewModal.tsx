@@ -125,17 +125,17 @@ const WriteReviewModal: React.FC<WriteReviewModalProps> = ({
         ? `https://hs-site-1.onrender.com/api/deals/${dealId}/reviews`
         : `https://hs-site-1.onrender.com/api/products/${productId}/reviews`;
 
-      await axios.post(
-        url,
-        {
-          reviewText: comment,
-          reviewRating: rating,
-          productImages: images,
-        },
-        {
-          headers: { Authorization: token },
-        }
-      );
+      // await axios.post(
+      //   url,
+      //   {
+      //     reviewText: comment,
+      //     reviewRating: rating,
+      //     productImages: images,
+      //   },
+      //   {
+      //     headers: { Authorization: token },
+      //   }
+      // );
 
       const response = await axios.post(
         url,
@@ -151,7 +151,7 @@ const WriteReviewModal: React.FC<WriteReviewModalProps> = ({
 
       console.log("Review Submit Response:", response.data);
 
-      alert("Review submitted successfully 🎉");
+      alert("Review submitted successfully");
 
       // Refresh UI
       if (onReviewSubmit) onReviewSubmit();
