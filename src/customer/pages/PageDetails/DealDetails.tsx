@@ -30,6 +30,7 @@ interface Review {
   createdAt: string;
   reviewRating: number;
   reviewText: string;
+  productImages?: string[];
 }
 
 const DealDetails = () => {
@@ -84,6 +85,7 @@ const DealDetails = () => {
           createdAt: r.createdAt || new Date().toISOString(),
           reviewRating: r.reviewRating || r.rating,
           reviewText: r.reviewText,
+           productImages: r.productImages,
         }));
 
         setReviews(formatted);
@@ -251,6 +253,7 @@ const DealDetails = () => {
                       rating={r.reviewRating}
                       comment={r.reviewText}
                       avatarLetter={r.userName.charAt(0)}
+                      images={r.productImages}
                       onDeleted={() => handleDeleteReview(r.id)}
                     />
                   </div>

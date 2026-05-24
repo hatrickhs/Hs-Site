@@ -233,7 +233,8 @@ const handleAddToCart = () => {
                   rating={review.reviewRating}
                   comment={review.reviewText}
                   avatarLetter={review.userName.charAt(0)}
-                  imageUrl={review.productImages?.[0]}
+                  // imageUrl={review.productImages?.[0]}
+                  images={review.productImages}
                   onDeleted={() =>
                     setReviews(prev => prev.filter((_, i) => i !== idx))} />
               ))

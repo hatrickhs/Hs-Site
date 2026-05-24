@@ -5,14 +5,14 @@ import { Delete } from "@mui/icons-material";
 import { red } from "@mui/material/colors";
 
 interface ReviewCardProps {
-  reviewId: number; 
+  reviewId: number;
   name: string;
   date: string;
   rating: number;
   comment: string;
   avatarLetter?: string;
-  imageUrl?: string;
-  onDeleted?: () => void; 
+  images?: string[];
+  onDeleted?: () => void;
 }
 
 const ReviewCard = ({
@@ -22,12 +22,12 @@ const ReviewCard = ({
   rating,
   comment,
   avatarLetter,
-  imageUrl,
+  images,
   onDeleted
 }: ReviewCardProps) => {
 
   const handleDelete = async () => {
-    const token = localStorage.getItem('jwt'); 
+    const token = localStorage.getItem('jwt');
     if (!token) return;
 
     try {
@@ -71,14 +71,27 @@ const ReviewCard = ({
             <Rating value={rating} readOnly precision={0.5} className="mt-1" />
             <p className="mt-1 text-sm text-gray-700">{comment || "abcd"}</p>
 
-            {imageUrl && (
+            {/* {imageUrl && (
               <img
                 src={imageUrl}
                 className="w-20 h-20 mt-2 object-cover rounded"
                 alt="review"
               />
             )}
-          </div>
+          </div> */}
+            {images && images.length > 0 && (
+              <div className="flex gap-2 mt-2 overflow-x-auto">
+                {images.map((img, index) => (
+                  <img
+                    key={index}
+                    src={img}
+                    className="w-20 h-20 object-cover rounded"
+                    alt={`review-${index}`}
+                  />
+                ))}
+              </div>
+            )}
+            </div>
         </Grid>
 
         {/* Delete Button */}
