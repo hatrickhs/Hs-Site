@@ -46,7 +46,7 @@ const SearchPage = () => {
 
     try {
       const res = await axios.get<Product[]>(
-        "http://localhost:5000/products/search",
+        "https://hs-site-1.onrender.com/products/search",
         { params: { keyword } }
       );
 

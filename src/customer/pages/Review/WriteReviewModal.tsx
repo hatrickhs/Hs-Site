@@ -125,18 +125,6 @@ const WriteReviewModal: React.FC<WriteReviewModalProps> = ({
         ? `https://hs-site-1.onrender.com/api/deals/${dealId}/reviews`
         : `https://hs-site-1.onrender.com/api/products/${productId}/reviews`;
 
-      // await axios.post(
-      //   url,
-      //   {
-      //     reviewText: comment,
-      //     reviewRating: rating,
-      //     productImages: images,
-      //   },
-      //   {
-      //     headers: { Authorization: token },
-      //   }
-      // );
-
       const response = await axios.post(
         url,
         {
@@ -198,14 +186,6 @@ const WriteReviewModal: React.FC<WriteReviewModalProps> = ({
             onClick={() => document.getElementById("file-input")?.click()}
           >
             {uploading ? <CircularProgress size={24} /> : "+"}
-            {/* <input
-              id="file-input"
-              type="file"
-              hidden
-              onChange={(e) => {
-                if (e.target.files) handleUpload(e.target.files[0]);
-              }}
-            /> */}
             <input
               id="file-input"
               type="file"
